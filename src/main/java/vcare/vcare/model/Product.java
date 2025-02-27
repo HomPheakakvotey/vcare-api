@@ -13,7 +13,8 @@ import lombok.Setter;
 public class Product {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -22,7 +23,7 @@ public class Product {
     private String thumbnail;
 
     @Column(nullable = false)
-    private String price;
+    private float price;
 
     @Column(nullable = false)
     private String description;

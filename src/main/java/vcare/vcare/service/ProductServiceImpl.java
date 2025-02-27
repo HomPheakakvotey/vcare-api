@@ -19,15 +19,18 @@ public class ProductServiceImpl implements ProductService {
     public Product createProduct(Product product) {
         try {
             // Check if a product with the same name already exists
-            Optional<Product> existingProduct = productRepository.findById(product.getId());
+            Optional<Product> existingProduct = productRepository.findByName(product.getName());
             if (existingProduct.isPresent()) {
                 throw new RuntimeException("Product with the name " + product.getName() + " already exists.");
             }
+
+            // Save the product, id will be generated automatically
             return productRepository.save(product);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while creating the product: " + e.getMessage());
         }
     }
+
 
     @Override
     public List<Product> getAllProducts() {
@@ -35,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> getProductById(String id) {
+    public Optional<Product> getProductById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product with ID: " + id + " not found."));
 
@@ -43,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(String id, Product productDetails) {
+    public Product updateProduct(Long id, Product productDetails) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product with ID: " + id + " not found."));
         product.setName(productDetails.getName());
@@ -56,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(String id) {
+    public void deleteProduct(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product with ID: " + id + " not found."));
 
