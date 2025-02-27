@@ -1,19 +1,14 @@
 version: '3.8'
-
-
 services:
-  postgres:
-    image: postgres:latest
-    container_name: my_postgres
+  vcare-api:
+    container_name: 'vcare-api'
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: always
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: user
-      POSTGRES_DB: database_vcare
+      - TZ=Asia/Bangkok
     ports:
-      - "5432:5432"
+      - '4021:8080'
     volumes:
-      - pg_data:/var/lib/postgresql/data
-
-volumes:
-  pg_data:
+      - '/home/fileStorage/images:/home/votey/media'
